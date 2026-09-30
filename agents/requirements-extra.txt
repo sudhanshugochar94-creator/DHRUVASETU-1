@@ -1,0 +1,3 @@
+# Optional heavy models. The tools fall back gracefully if these are missing.
+ultralytics        # YOLO object detection for the Image Agent
+faster-whisper     # speech-to-text for the Video Agent

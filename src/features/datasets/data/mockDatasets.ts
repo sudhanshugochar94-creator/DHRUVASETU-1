@@ -1,0 +1,130 @@
+import { Dataset } from '@/shared/types/index';
+
+export const mockDatasets: Dataset[] = [
+  {
+    id: 'dat-seaice-01',
+    name: 'Prydz Bay Coastal Fast-Ice Thickness and Concentration Time-Series',
+    region: 'Antarctica',
+    domain: 'Sea Ice Observations',
+    description: 'Ground-truth in-situ drilling measurements, electromagnetic induction sounding, and MODIS/AMSR-2 satellite calibrated sea-ice thickness and snow depth observations collected adjacent to Bharati Station.',
+    variables: ['Ice Thickness (m)', 'Snow Depth (cm)', 'Surface Albedo', 'Brine Volume (%)', 'Bulk Salinity (psu)', 'Surface Skin Temp (°C)'],
+    timeRange: '2019-01-01 to 2023-12-31',
+    format: 'CSV / NetCDF-4',
+    size: '1.45 GB',
+    doi: '10.5281/zenodo.ncpor.seaice.prydz',
+    license: 'MoES Open Scientific Data (CC-BY 4.0)',
+    spatialCoverage: '69.35°S - 69.45°S, 76.10°E - 76.30°E',
+    samplingFrequency: 'Daily (Austral Summer) / Weekly (Austral Winter)',
+    station: 'Bharati Station (Larsemann Hills)',
+    downloadCount: 1420,
+    lastUpdated: '2024-03-15',
+    sampleData: [
+      { date: '2023-11-01', latitude: -69.407, longitude: 76.187, ice_thickness_m: 1.78, snow_depth_cm: 14.2, albedo: 0.81, surface_temp_c: -12.4 },
+      { date: '2023-11-08', latitude: -69.412, longitude: 76.192, ice_thickness_m: 1.74, snow_depth_cm: 12.8, albedo: 0.79, surface_temp_c: -9.8 },
+      { date: '2023-11-15', latitude: -69.418, longitude: 76.205, ice_thickness_m: 1.69, snow_depth_cm: 11.5, albedo: 0.76, surface_temp_c: -7.2 },
+      { date: '2023-11-22', latitude: -69.425, longitude: 76.211, ice_thickness_m: 1.61, snow_depth_cm: 8.9, albedo: 0.72, surface_temp_c: -4.5 },
+      { date: '2023-11-29', latitude: -69.430, longitude: 76.220, ice_thickness_m: 1.52, snow_depth_cm: 6.1, albedo: 0.68, surface_temp_c: -2.1 },
+      { date: '2023-12-06', latitude: -69.435, longitude: 76.228, ice_thickness_m: 1.38, snow_depth_cm: 3.4, albedo: 0.63, surface_temp_c: -0.8 },
+      { date: '2023-12-13', latitude: -69.441, longitude: 76.235, ice_thickness_m: 1.21, snow_depth_cm: 1.2, albedo: 0.58, surface_temp_c: 0.4 },
+      { date: '2023-12-20', latitude: -69.448, longitude: 76.242, ice_thickness_m: 0.98, snow_depth_cm: 0.0, albedo: 0.52, surface_temp_c: 1.2 }
+    ]
+  },
+  {
+    id: 'dat-ocean-02',
+    name: 'IndARC Kongsfjorden Moored Fjord Hydrographic & Current Profile',
+    region: 'Arctic',
+    domain: 'Oceanographic Observations',
+    description: 'Autonomous high-resolution underwater mooring records in the Arctic fjord Kongsfjorden (Svalbard) at 192 m depth, capturing West Spitsbergen Current intrusions and Arctic freshwater melt dynamics.',
+    variables: ['Water Depth (dbar)', 'Potential Temperature (°C)', 'Practical Salinity (psu)', 'Current Speed (m/s)', 'Current Direction (°)', 'Turbidity (NTU)', 'Dissolved O2 (μmol/kg)'],
+    timeRange: '2020-09-01 to 2023-08-31',
+    format: 'CSV / NetCDF-4',
+    size: '890 MB',
+    doi: '10.5281/zenodo.ncpor.indarc.ocean',
+    license: 'MoES Data Policy 2021',
+    spatialCoverage: '78.9056°N, 12.1123°E (Kongsfjorden Mooring)',
+    samplingFrequency: 'Hourly Continuous',
+    station: 'IndARC / Himadri Station',
+    downloadCount: 2180,
+    lastUpdated: '2024-02-28',
+    sampleData: [
+      { timestamp: '2023-06-15 00:00', depth_m: 25.0, temp_c: 2.14, salinity_psu: 34.22, current_speed_ms: 0.18, current_dir_deg: 245, dissolved_o2: 320.4 },
+      { timestamp: '2023-06-15 06:00', depth_m: 50.0, temp_c: 1.82, salinity_psu: 34.56, current_speed_ms: 0.14, current_dir_deg: 252, dissolved_o2: 312.1 },
+      { timestamp: '2023-06-15 12:00', depth_m: 100.0, temp_c: 1.45, salinity_psu: 34.78, current_speed_ms: 0.09, current_dir_deg: 268, dissolved_o2: 304.8 },
+      { timestamp: '2023-06-15 18:00', depth_m: 150.0, temp_c: 2.38, salinity_psu: 34.92, current_speed_ms: 0.12, current_dir_deg: 280, dissolved_o2: 298.5 },
+      { timestamp: '2023-06-16 00:00', depth_m: 190.0, temp_c: 2.61, salinity_psu: 34.98, current_speed_ms: 0.11, current_dir_deg: 285, dissolved_o2: 295.2 }
+    ]
+  },
+  {
+    id: 'dat-glacio-03',
+    name: 'Chhota Shigri Benchmark Glacier Surface Mass Balance & Ablation Stakes',
+    region: 'Himalaya',
+    domain: 'Glaciological Measurements',
+    description: 'Field glaciological mass balance measurements across 22 ablation stakes spanning 4,300 m to 5,200 m elevation on Chhota Shigri Glacier, Chandra-Bhaga basin, Lahaul-Spiti, Himachal Pradesh.',
+    variables: ['Stake ID', 'Elevation (m a.s.l.)', 'Ablation Rate (m/yr)', 'Annual Mass Balance (m w.e.)', 'Snow Density (kg/m³)', 'Ice Velocity (m/yr)'],
+    timeRange: '2016 to 2023 (Annual Cycles)',
+    format: 'CSV / Excel',
+    size: '120 MB',
+    doi: '10.5281/zenodo.ncpor.chhotashigri.mb',
+    license: 'Open Access (MoES/NCPOR)',
+    spatialCoverage: '32.28°N, 77.51°E (Chhota Shigri Glacier)',
+    samplingFrequency: 'Biannual (Pre-monsoon / Post-monsoon)',
+    station: 'Himansh Station',
+    downloadCount: 1640,
+    lastUpdated: '2023-11-30',
+    sampleData: [
+      { stake_id: 'CS-01', elevation_m: 4400, mass_balance_m_we: -2.85, snow_density_kg_m3: 410, surface_velocity_m_yr: 18.5 },
+      { stake_id: 'CS-04', elevation_m: 4620, mass_balance_m_we: -1.95, snow_density_kg_m3: 435, surface_velocity_m_yr: 24.2 },
+      { stake_id: 'CS-08', elevation_m: 4850, mass_balance_m_we: -0.85, snow_density_kg_m3: 470, surface_velocity_m_yr: 31.0 },
+      { stake_id: 'CS-12', elevation_m: 5010, mass_balance_m_we: 0.15, snow_density_kg_m3: 520, surface_velocity_m_yr: 22.4 },
+      { stake_id: 'CS-16', elevation_m: 5200, mass_balance_m_we: 0.65, snow_density_kg_m3: 560, surface_velocity_m_yr: 14.1 }
+    ]
+  },
+  {
+    id: 'dat-met-04',
+    name: 'Maitri Research Station High-Resolution Surface Meteorology & Solar Radiation',
+    region: 'Antarctica',
+    domain: 'Meteorological Data',
+    description: 'Decadal meteorological observations from automated weather station (AWS) and classical sensors situated in Schirmacher Oasis, East Antarctica.',
+    variables: ['Air Temperature (°C)', 'Atmospheric Pressure (hPa)', 'Wind Speed (knots)', 'Wind Gusts (knots)', 'Relative Humidity (%)', 'Global Solar Irradiance (W/m²)', 'UV Index'],
+    timeRange: '2015-01-01 to 2024-01-01',
+    format: 'CSV / NetCDF-4',
+    size: '2.1 GB',
+    doi: '10.5281/zenodo.ncpor.maitri.met',
+    license: 'MoES Public Data Policy',
+    spatialCoverage: '70.7667°S, 11.7333°E (Maitri Base)',
+    samplingFrequency: '10-minute intervals',
+    station: 'Maitri Station',
+    downloadCount: 3120,
+    lastUpdated: '2024-01-10',
+    sampleData: [
+      { timestamp: '2023-07-15 12:00', air_temp_c: -24.8, pressure_hpa: 984.2, wind_speed_kts: 34.5, wind_dir: 'ESE', relative_humidity: 58.2, solar_rad_wm2: 0.0 },
+      { timestamp: '2023-07-15 18:00', air_temp_c: -26.1, pressure_hpa: 981.5, wind_speed_kts: 42.1, wind_dir: 'E', relative_humidity: 62.0, solar_rad_wm2: 0.0 },
+      { timestamp: '2023-12-15 12:00', air_temp_c: 1.4, pressure_hpa: 992.8, wind_speed_kts: 12.2, wind_dir: 'WSW', relative_humidity: 44.5, solar_rad_wm2: 685.2 },
+      { timestamp: '2023-12-15 18:00', air_temp_c: -0.8, pressure_hpa: 993.4, wind_speed_kts: 9.8, wind_dir: 'W', relative_humidity: 48.0, solar_rad_wm2: 340.1 }
+    ]
+  },
+  {
+    id: 'dat-bio-05',
+    name: 'Southern Ocean Biogeochemical Transect: Trace Metals & Chlorophyll-a (40°S–68°S)',
+    region: 'Southern Ocean',
+    domain: 'Biodiversity Observations',
+    description: 'Underway fluorometry, discrete HPLC pigment analysis, and clean-van-Dorn trace metal hydrocasts quantifying iron-limitation across the Sub-Antarctic and Polar Frontal zones.',
+    variables: ['Latitude (°S)', 'Longitude (°E)', 'Dissolved Iron (dFe, nmol/kg)', 'Chlorophyll-a (mg/m³)', 'Nitrate (μmol/kg)', 'Phosphate (μmol/kg)', 'Silicic Acid (μmol/kg)'],
+    timeRange: '2022-01-15 to 2023-03-10',
+    format: 'CSV / ODV (Ocean Data View)',
+    size: '340 MB',
+    doi: '10.5281/zenodo.ncpor.so.biogeochem',
+    license: 'Open Access (CC-BY 4.0)',
+    spatialCoverage: '40.0°S to 68.0°S along 57.5°E transect',
+    samplingFrequency: 'Station hydrocasts every 2° latitude',
+    downloadCount: 980,
+    lastUpdated: '2023-09-01',
+    sampleData: [
+      { latitude: -40.0, longitude: 57.5, dissolved_fe_nmol: 0.45, chla_mg_m3: 0.85, nitrate_umol: 12.4, silicic_acid_umol: 2.1 },
+      { latitude: -45.0, longitude: 57.5, dissolved_fe_nmol: 0.22, chla_mg_m3: 1.42, nitrate_umol: 21.8, silicic_acid_umol: 5.4 },
+      { latitude: -50.0, longitude: 57.5, dissolved_fe_nmol: 0.12, chla_mg_m3: 0.38, nitrate_umol: 28.5, silicic_acid_umol: 18.2 },
+      { latitude: -55.0, longitude: 57.5, dissolved_fe_nmol: 0.08, chla_mg_m3: 0.24, nitrate_umol: 31.2, silicic_acid_umol: 42.6 },
+      { latitude: -62.0, longitude: 57.5, dissolved_fe_nmol: 0.35, chla_mg_m3: 1.88, nitrate_umol: 26.4, silicic_acid_umol: 68.1 }
+    ]
+  }
+];

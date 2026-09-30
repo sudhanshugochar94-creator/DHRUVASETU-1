@@ -1,0 +1,10 @@
+services:
+  agents:
+    build: .
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app            # live code + ./data (inbox, knowledge store)
+    stdin_open: true
+    tty: true

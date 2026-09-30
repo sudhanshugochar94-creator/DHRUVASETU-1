@@ -1,0 +1,16 @@
+crewai>=0.130
+chromadb
+networkx
+pypdf
+python-docx
+pillow
+pytesseract
+pdf2image
+pandas
+openpyxl
+tweepy
+python-dotenv
+supabase>=2
+httpx
+fastapi
+uvicorn[standard]
