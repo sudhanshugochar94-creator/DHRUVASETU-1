@@ -3,7 +3,7 @@ import threading
 import time
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -31,6 +31,8 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title="DhruvaSetu agents", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=cfg.CORS_ORIGINS, allow_methods=["*"], allow_headers=["*"])
+
+router = APIRouter()
 
 
 def staff(authorization: str = Header(default="")) -> str:
@@ -60,12 +62,12 @@ def _run(run_id: str):
             set_run(run_id, status="failed", error=str(e)[:500])
 
 
-@app.get("/health")
+@router.get("/health")
 def health():
     return {"ok": True, "dry_run": cfg.DRY_RUN}
 
 
-@app.post("/run")
+@router.post("/run")
 def run(uid: str = Depends(staff)):
     if _run_lock.locked():
         raise HTTPException(409, "A pipeline run is already in progress")
@@ -74,7 +76,7 @@ def run(uid: str = Depends(staff)):
     return {"run_id": run_id}
 
 
-@app.get("/runs")
+@router.get("/runs")
 def runs(_: str = Depends(staff)):
     return sb().table("agent_runs").select("*").order("created_at", desc=True).limit(10).execute().data
 
@@ -84,10 +86,14 @@ class ChatIn(BaseModel):
     history: list[tuple[str, str]] = []
 
 
-@app.post("/chat")
+@router.post("/chat")
 def chat(body: ChatIn):
     from portal.crews import chat_turn
     q = body.question.strip()[:1000]
     if not q:
         raise HTTPException(400, "Empty question")
     return {"answer": str(chat_turn(body.history, q))}
+
+
+app.include_router(router)
+app.include_router(router, prefix="/api/agents")

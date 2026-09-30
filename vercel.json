@@ -1,8 +1,35 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "app": {
+      "root": ".",
+      "framework": "vite",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "agents",
+          "format": "url",
+          "env": "AGENTS_URL"
+        }
+      ]
+    },
+    "agents": {
+      "root": "agents",
+      "framework": "fastapi"
+    }
+  },
   "rewrites": [
     {
+      "source": "/api/agents/(.*)",
+      "destination": {
+        "service": "agents"
+      }
+    },
+    {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": {
+        "service": "app"
+      }
     }
   ]
 }

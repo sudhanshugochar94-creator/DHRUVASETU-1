@@ -1,6 +1,10 @@
 import { supabase } from '@/shared/lib/supabase';
 
-const API = (import.meta.env.VITE_AGENT_API_URL || 'http://localhost:8000').replace(/\/$/, '');
+const API = (
+  import.meta.env.VITE_AGENT_API_URL ||
+  (import.meta.env as Record<string, string | undefined>).AGENTS_URL ||
+  '/api/agents'
+).replace(/\/$/, '');
 
 export interface AgentRun {
   id: string;
