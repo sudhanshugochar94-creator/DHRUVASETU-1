@@ -33,6 +33,12 @@ async def lifespan(_: FastAPI):
 app = FastAPI(title="DhruvaSetu agents", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=cfg.CORS_ORIGINS, allow_methods=["*"], allow_headers=["*"])
 
+
+@app.get("/")
+def service_root():
+    return {"service": "DhruvaSetu agents", "ok": True, "health": "/health", "docs": "/docs"}
+
+
 router = APIRouter()
 
 
@@ -66,6 +72,11 @@ def _run(run_id: str):
 @router.get("/health")
 def health():
     return {"ok": True, "dry_run": cfg.DRY_RUN}
+
+
+@router.get("/")
+def agent_root():
+    return {"service": "DhruvaSetu agents", "ok": True, "health": "/api/agents/health"}
 
 
 @router.post("/run")

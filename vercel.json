@@ -21,6 +21,12 @@
   },
   "rewrites": [
     {
+      "source": "/api/agents",
+      "destination": {
+        "service": "agents"
+      }
+    },
+    {
       "source": "/api/agents/(.*)",
       "destination": {
         "service": "agents"
