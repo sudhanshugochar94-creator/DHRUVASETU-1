@@ -25,7 +25,8 @@ def _sync_loop():
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    threading.Thread(target=_sync_loop, daemon=True).start()
+    if not cfg.IS_VERCEL:
+        threading.Thread(target=_sync_loop, daemon=True).start()
     yield
 
 

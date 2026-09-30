@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = Path(os.getenv("DATA_DIR", ROOT / "data"))
+IS_VERCEL = os.getenv("VERCEL") == "1"
+DATA = Path(os.getenv("DATA_DIR", "/tmp/dhruvasetu-data" if IS_VERCEL else ROOT / "data"))
 INBOX = DATA / "inbox"          # drop reports, images, videos, datasets here
 STORE = DATA / "store"          # graph.json + chroma vector index
 OUT = DATA / "output"
