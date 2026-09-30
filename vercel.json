@@ -15,7 +15,8 @@
     },
     "agents": {
       "root": "agents",
-      "framework": "fastapi"
+      "framework": "fastapi",
+      "entrypoint": "api.py"
     }
   },
   "rewrites": [

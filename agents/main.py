@@ -2,6 +2,7 @@
 import argparse
 
 from portal import config as cfg
+from api import app
 
 
 def main():
