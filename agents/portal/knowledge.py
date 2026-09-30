@@ -2,7 +2,11 @@
 import json
 import re
 
-import chromadb
+try:
+    import chromadb
+except ImportError:
+    chromadb = None
+
 import networkx as nx
 
 from . import config as cfg
@@ -11,6 +15,62 @@ from .models import CrossLinks, ExtractionResult
 
 def _key(name: str) -> str:
     return re.sub(r"\s+", " ", name.strip().lower())
+
+
+class LightweightFactsCollection:
+    def __init__(self, path):
+        self.path = path
+        self.data = {}
+        if self.path.exists():
+            try:
+                self.data = json.loads(self.path.read_text())
+            except Exception:
+                self.data = {}
+
+    def _save(self):
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            self.path.write_text(json.dumps(self.data, indent=1))
+        except Exception:
+            pass
+
+    def upsert(self, ids, documents, metadatas):
+        for fid, doc, meta in zip(ids, documents, metadatas):
+            self.data[fid] = {"doc": doc, "meta": meta}
+        self._save()
+
+    def get(self, where=None):
+        docs = []
+        source_id = (where or {}).get("source_id")
+        for v in self.data.values():
+            if not source_id or v.get("meta", {}).get("source_id") == source_id:
+                docs.append(v["doc"])
+        return {"documents": docs}
+
+    def delete(self, where=None):
+        source_id = (where or {}).get("source_id")
+        if source_id:
+            self.data = {k: v for k, v in self.data.items() if v.get("meta", {}).get("source_id") != source_id}
+            self._save()
+
+    def count(self):
+        return len(self.data)
+
+    def query(self, query_texts, n_results=6):
+        q = (query_texts[0] if query_texts else "").lower()
+        scored = []
+        for v in self.data.values():
+            doc = v["doc"]
+            meta = v.get("meta", {})
+            words = [w for w in re.split(r"\W+", q) if len(w) > 2]
+            score = sum(1 for w in words if w in doc.lower())
+            scored.append((score, doc, meta))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        top = scored[:n_results]
+        return {
+            "documents": [[x[1] for x in top]],
+            "metadatas": [[x[2] for x in top]]
+        }
 
 
 class KnowledgeStore:
@@ -23,8 +83,11 @@ class KnowledgeStore:
                 self.g.add_node(n, **a)
             for u, v, a in d["edges"]:
                 self.g.add_edge(u, v, **a)
-        self.col = chromadb.PersistentClient(path=str(cfg.STORE / "chroma")) \
-            .get_or_create_collection("facts")
+        if chromadb is not None:
+            self.col = chromadb.PersistentClient(path=str(cfg.STORE / "chroma")) \
+                .get_or_create_collection("facts")
+        else:
+            self.col = LightweightFactsCollection(cfg.STORE / "facts.json")
 
     # ---------- write side (Knowledge Agent: build) ----------
     def _has_edge(self, u, v, relation):

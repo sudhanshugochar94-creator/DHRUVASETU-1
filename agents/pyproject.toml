@@ -5,22 +5,13 @@ description = "DhruvaSetu AI Agents Backend"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "crewai>=0.130",
-    "chromadb",
-    "networkx",
-    "pypdf",
-    "python-docx",
-    "pillow",
-    "pytesseract",
-    "pdf2image",
-    "pandas",
-    "openpyxl",
-    "tweepy",
-    "python-dotenv",
+    "fastapi",
+    "uvicorn",
     "supabase>=2",
     "httpx",
-    "fastapi",
-    "uvicorn[standard]"
+    "pydantic",
+    "networkx",
+    "python-dotenv"
 ]
 
 [tool.vercel]

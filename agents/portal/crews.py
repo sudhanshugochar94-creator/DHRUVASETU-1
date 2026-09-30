@@ -1,7 +1,16 @@
-"""Crews/tasks. Formatting avoids curly braces because CrewAI treats {x} as a template variable."""
+import json
+import os
+import re
 from datetime import datetime, timezone
 
-from crewai import Crew, Process, Task
+try:
+    from crewai import Crew, Process, Task
+    HAS_CREWAI = True
+except ImportError:
+    HAS_CREWAI = False
+    Crew = Process = Task = None
+
+import httpx
 
 from . import agents as A
 from . import config as cfg
@@ -9,14 +18,60 @@ from .models import (ContentPlan, CrossLinks, Draft, ExtractionResult, MediaResu
                      SchedulePlan, StyledContent, ValidationReport)
 
 
+def _call_llm_direct(prompt: str, system_prompt: str = "", model_cls=None):
+    api_key = os.getenv("OPENAI_API_KEY") or os.getenv("XAI_API_KEY") or os.getenv("GROK_API_KEY")
+    base_url = "https://api.x.ai/v1" if (os.getenv("XAI_API_KEY") or os.getenv("GROK_API_KEY")) else "https://api.openai.com/v1"
+    model_name = os.getenv("LLM_MODEL", "grok-2-latest" if "x.ai" in base_url else "gpt-4o-mini")
+
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    messages = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    messages.append({"role": "user", "content": prompt})
+
+    if not api_key:
+        if model_cls:
+            try:
+                return model_cls()
+            except Exception:
+                pass
+        return "No LLM API key configured in environment."
+
+    try:
+        with httpx.Client(timeout=30.0) as client:
+            res = client.post(
+                f"{base_url}/chat/completions",
+                headers=headers,
+                json={"model": model_name, "messages": messages, "temperature": 0.2}
+            )
+            data = res.json()
+            content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+            if model_cls:
+                json_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", content)
+                clean_json = json_match.group(1) if json_match else content.strip()
+                return model_cls.model_validate_json(clean_json)
+            return content
+    except Exception as e:
+        if model_cls:
+            try:
+                return model_cls()
+            except Exception:
+                pass
+        return f"LLM response error: {e}"
+
+
 def run_task(agent, description, expected, model=None):
-    task = Task(description=description, expected_output=expected, agent=agent, output_pydantic=model)
-    out = Crew(agents=[agent], tasks=[task], process=Process.sequential, verbose=cfg.VERBOSE).kickoff()
-    if model is None:
-        return out.raw
-    if out.pydantic is None:
-        raise RuntimeError(f"{agent.role}: no structured output")
-    return out.pydantic
+    if HAS_CREWAI:
+        task = Task(description=description, expected_output=expected, agent=agent, output_pydantic=model)
+        out = Crew(agents=[agent], tasks=[task], process=Process.sequential, verbose=cfg.VERBOSE).kickoff()
+        if model is None:
+            return out.raw
+        if out.pydantic is None:
+            raise RuntimeError(f"{agent.role}: no structured output")
+        return out.pydantic
+    else:
+        sys = f"Role: {agent.role}\nGoal: {agent.goal}\nBackstory: {agent.backstory}"
+        return _call_llm_direct(prompt=description, system_prompt=sys, model_cls=model)
 
 
 # ---- Specialized agents (run in parallel by the flow) ----

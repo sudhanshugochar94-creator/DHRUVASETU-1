@@ -1,5 +1,18 @@
-"""One factory per box in the architecture diagram."""
-from crewai import Agent, LLM
+try:
+    from crewai import Agent, LLM
+except ImportError:
+    class LLM:
+        def __init__(self, model=None, temperature=0.2):
+            self.model = model
+            self.temperature = temperature
+
+    class Agent:
+        def __init__(self, role, goal, backstory, tools=None, llm=None, allow_delegation=False, verbose=False):
+            self.role = role
+            self.goal = goal
+            self.backstory = backstory
+            self.tools = tools or []
+            self.llm = llm
 
 from . import config as cfg
 from .tools import (analyze_image, analyze_video, get_source_facts,

@@ -3,7 +3,13 @@ import re
 import subprocess
 from pathlib import Path
 
-from crewai.tools import tool
+try:
+    from crewai.tools import tool
+except ImportError:
+    def tool(name=None):
+        def decorator(func):
+            return func
+        return decorator
 
 from . import config as cfg
 from .knowledge import get_store

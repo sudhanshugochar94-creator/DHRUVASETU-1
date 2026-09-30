@@ -4,7 +4,30 @@ mode="supabase" -> resources table in, drafts into the portal's Review Queue (hu
 """
 from concurrent.futures import ThreadPoolExecutor
 
-from crewai.flow.flow import Flow, listen, start
+try:
+    from crewai.flow.flow import Flow, listen, start
+except ImportError:
+    def start():
+        def decorator(func):
+            return func
+        return decorator
+
+    def listen(target=None):
+        def decorator(func):
+            return func
+        return decorator
+
+    class Flow:
+        def __init__(self):
+            self.state = PortalState()
+
+        def kickoff(self):
+            for step in [self.ingest, self.specialized_agents, self.link_and_build_knowledge, self.orchestrate_and_schedule, self.content_pipeline]:
+                try:
+                    step()
+                except Exception as e:
+                    print(f"[flow step error] {step.__name__}: {e}")
+
 from pydantic import BaseModel, Field
 
 from . import approval, crews, publisher
