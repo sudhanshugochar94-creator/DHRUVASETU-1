@@ -1,55 +1,207 @@
-# DhruvaSetu
+<div align="center">
 
-Polar science outreach, knowledge repository and media portal for NCPOR (SIH26063). React + TypeScript + Vite + Tailwind + Supabase.
+# 🧠 DHRUVASETU
 
-```bash
-npm install
-cp .env.example .env   # add your Supabase URL and anon key
-npm run dev
-```
+### A structured knowledge layer for multimodal scientific content
 
-## Project structure
+**Ingest → Extract → Structure → Link → Retrieve**
 
-```
-src/
-  app/          App entry, providers, routes
-  features/     One folder per feature: pages/, components/, services/, data/
-    home  repository  expeditions  datasets  publications  media
-    outreach  learn  about  studio  dashboard  auth
-  shared/       ui/ (buttons, modals...), layout/ (sidebar, shell, footer),
-                art/ (mountain SVG), context/, lib/, types/
-```
+<br>
 
-Imports across folders use the `@/` alias (for example `@/shared/ui/Button`).
+[![Supabase](https://img.shields.io/badge/Supabase-Backend-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![SQL](https://img.shields.io/badge/SQL-Migrations-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Knowledge Graph](https://img.shields.io/badge/Knowledge-Graph-8B5CF6?style=for-the-badge)](#)
 
-## Production build
+<br>
 
-```bash
-npm ci
-npm run build
-```
+**From uploaded content to structured, connected scientific knowledge.**
 
-The production output is written to `dist/`.
+</div>
 
-## Deploying to Vercel
+---
 
-Import this repository into Vercel with the Vite framework preset. Use `npm ci`
-for the install command, `npm run build` for the build command, and `dist` as
-the output directory. `vercel.json` rewrites app routes to the SPA entry point
-so direct links and page refreshes work.
+<div align="center">
 
-Set these variables in the Vercel project settings for each deployment
-environment:
+## ✦ About DHRUVASETU
 
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+</div>
 
-Use the public Supabase URL and anon key only; never expose a service-role key
-or other private credentials in a `VITE_*` variable. Configure the deployed
-site URL in Supabase Auth's allowed site and redirect URLs.
+DHRUVASETU adds a persistent knowledge layer to a scientific content platform.
 
-The agent features require the separate Python service in `agents/`. Deploy it
-to a public HTTPS endpoint and set `VITE_AGENT_API_URL` to that endpoint. The
-service must allow requests from the deployed Vercel domain via CORS. Without
-that service, the rest of the web app can run, but agent actions will be
-unavailable. The local default `http://localhost:8000` is only for development.
+Instead of treating uploaded files as isolated objects, the system stores the information extracted from them as structured knowledge — including **images, videos, entities, claims, transcript segments, evidence, and relationships**.
+
+The goal is to preserve scientific context so it can be searched, connected, reviewed, and reused across different workflows.
+
+<div align="center">
+
+> **Files → Knowledge → Evidence → Relationships**
+
+</div>
+
+---
+
+<div align="center">
+
+## 🚀 What DHRUVASETU Adds
+
+</div>
+
+<div align="center">
+
+| 🖼️ Media | 🧩 Knowledge | 🔗 Relationships |
+|:---:|:---:|:---:|
+| Images | Entities | Cross-media links |
+| Videos | Claims | Source relationships |
+| Video frames | Entity mentions | Dataset connections |
+| Transcripts | Evidence | Publication connections |
+
+</div>
+
+The Phase 3 knowledge layer builds on the platform's existing ingestion, processing, task orchestration, and embedding capabilities.
+
+It provides the persistence layer needed to retain structured information after the initial ingestion process.
+
+---
+
+<div align="center">
+
+## 🔄 Knowledge Workflow
+
+<pre align="center">
+┌─────────────────────────────┐
+│       INGESTED CONTENT      │
+│                             │
+│  Documents • Images • Video │
+│  Datasets • Other Sources   │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│         PROCESSING          │
+│                             │
+│ OCR • Transcription         │
+│ Metadata • Embeddings       │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│     KNOWLEDGE EXTRACTION    │
+│                             │
+│ Entities • Claims           │
+│ Mentions • Evidence         │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│     RELATIONSHIP LAYER      │
+│                             │
+│ Documents ↔ Media           │
+│ Entities ↔ Claims           │
+│ Sources ↔ Evidence          │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│      SUPABASE / POSTGRES    │
+│                             │
+│     Persistent Knowledge    │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│       SEARCH & AI           │
+│                             │
+│ Retrieval • Context         │
+│ Reasoning • Validation      │
+└─────────────────────────────┘
+</pre>
+
+</div>
+
+---
+
+<div align="center">
+
+## 🏗️ Architecture
+
+</div>
+
+<div align="center">
+
+<pre align="center">
+                         DHRUVASETU
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+        Documents          Images           Videos
+             │                │                │
+             └────────────────┼────────────────┘
+                              │
+                              ▼
+                       Processing Layer
+                              │
+                ┌─────────────┼─────────────┐
+                │             │             │
+                ▼             ▼             ▼
+              OCR       Transcription   Metadata
+                │             │             │
+                └─────────────┼─────────────┘
+                              │
+                              ▼
+                     Knowledge Layer
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+          Entities          Claims          Evidence
+             │                │                │
+             └────────────────┼────────────────┘
+                              │
+                              ▼
+                    Cross-Media Links
+                              │
+                              ▼
+                       PostgreSQL
+                        / Supabase
+                              │
+                              ▼
+                   Search • Retrieval • AI
+</pre>
+
+</div>
+
+---
+
+<div align="center">
+
+## 🗂️ Database Schema
+
+### Phase 3 Knowledge Persistence
+
+</div>
+
+The migration introduces a set of tables designed around two major ideas:
+
+**1. Store richer media**
+
+**2. Store the meaning and relationships extracted from that media**
+
+```text
+                         KNOWLEDGE LAYER
+                                │
+           ┌────────────────────┼────────────────────┐
+           │                    │                    │
+           ▼                    ▼                    ▼
+         MEDIA              KNOWLEDGE           RELATIONSHIPS
+           │                    │                    │
+      ┌────┴────┐          ┌────┴────┐              │
+      │         │          │         │              │
+      ▼         ▼          ▼         ▼              ▼
+   images    videos    entities    claims    cross_media_links
+                │
+        ┌───────┼────────┐
+        │       │        │
+        ▼       ▼        ▼
+      frames  moments  transcripts
